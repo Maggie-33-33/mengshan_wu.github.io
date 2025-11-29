@@ -37,17 +37,6 @@
     </div>
   </div>
 
-  <!-- <div class="wrapper">
-    <hr>
-        <div id="menu">
-
-          <div><a href="#papers">Papers</a></div>
-          <div><a href="#projects">Projects</a></div>
-          <div><a href="#awards">Awards</a></div>
-          <div><a href="#misc">Miscellaneous</a></div>
-        </div>
-    <hr>
-  </div> -->
   <div class="wrapper divider-line">
     <hr>
   </div>
@@ -73,27 +62,11 @@
 
     <div id="papers" class="publications">
       <h1 class="md-heading text-left">
-        In-Submissions
-      </h1>
-      <div class="sub-list main-text-box">
-      </div>
-    </div>
-
-    <div id="papers" class="publications">
-      <h1 class="md-heading text-left">
         Working Papers
       </h1>
-      <div class="work-list main-text-box">
-      </div>
+      <div class="work-list main-text-box"></div>
     </div>
-
-    <!-- <div id="projects">
-      <h1 class="md-heading text-left">
-        Projects
-      </h1>
-    <div class="project-container">
-    </div> -->
-
+    <hr class="pub-divider">
 
     </div>
 
@@ -158,150 +131,42 @@
     link: "https://www.mdpi.com/2071-1050/15/15/11717"
   });
 
-  let submissionCount = 0;
-
-  function addSubmission(title, authors, conference, special, link, code) {
-      let listEntry = "<div class=\"pub\">";
-      
-      listEntry += "<div class=\"pub-content\"><div class=\"title\">" + title + "</div>";
-      
-
-      // authors
-      // find "Hao Sha" in authors and bold & underline it
-
-      let authorList = authors.split(", ");
-      let newAuthorList = [];
-      for (let i = 0; i < authorList.length; i++) {
-          if (authorList[i].includes("Hao Sha")) {
-              newAuthorList.push('<span style="font-weight: bold; text-decoration: underline;">' + authorList[i] + '</span>');
-        
-          } else {
-              newAuthorList.push(authorList[i]);
-          }
-      }
-      listEntry += "<div class=\"authors\">" + newAuthorList.join(", ") + "</div>";
-
-
-      // conference
-      if (conference != null) {
-          if (special != null) {
-            listEntry += "<div class=\"publishon\"><i>" + conference + "</i><span class=\"special\"><b> " + special + "</b></span><span class=\"place\"></span></div>";
-          }
-          else {
-            listEntry += "<div class=\"publishon\"><i>" + conference + "</i></div>";
-          }
-      }
-
-      // pdf
-      listEntry += " <a href=\"" + link + "\"><span class=\"label\">[paper]</span></a>";
-
-
-      if (code != null) {
-          listEntry += " <a href=\"" + code + "\"><span class=\"label\">[code]</span></a>";
-      }
-
-
-      listEntry += "<br>";
-
-      listEntry += "<div id=\"div" + paperCount + "\" style=\"font-size:15px; width: 0px; padding: 0px; background: rgb(245, 245, 245);margin-top: -12px;\"></div><br></div></div>";
-
-      document.querySelector('.sub-list.main-text-box').innerHTML += listEntry;
-
-      submissionCount += 1;
-  }
-
-  addSubmission(
-    title="LanguageMPC: Large Language Models as Decision Makers for Autonomous Driving",
-    authors="Hao Sha, Yao Mu, Yuxuan Jiang, Li Chen, Chenfeng Xu, Ping Luo, Shengbo Eben Li, Masayoshi Tomizuka, Wei Zhan, and Mingyu Ding",
-    conference="R&R phase of IEEE Robotics and Automation Letters",
-    special="(RA-L)",
-    link="./publications/LanguageMPC_RAL.pdf",
-    code=null,
-  )
-
-  addSubmission(
-    title="Towards Better Generalization on Test Data with Distributional Uncertainty",
-    authors="Pengfei Tian*, Hao Sha*, Jiayun Wu, Yue He, and Peng Cui",
-    conference="Under review of IEEE Transactions on Pattern Analysis and Machine Intelligence",
-    special="(TPAMI)",
-    link="./publications/Towards_TPAMI.pdf",
-    code=null,
-  )
-
-  addSubmission(
-    title="How do Armed Conflict Transfer? Physical Modeling of Spatial Diffusion and Relocation Dynamics in Latent Space",
-    authors="Hao Sha*, Jingtian Hu*, Pengfei Tian*, Yue He, Chong Chen, Fan Yang, Andre Python, and Peng Cui",
-    conference="Under review of",
-    special="Science Advance",
-    link="./publications/Conflict_ScienceAdvance.pdf",
-    code=null,
-  )
-
   let workCount = 0;
 
-  function addWorking(title, authors, conference, special, link, code) {
-      let listEntry = "<div class=\"pub\">";
-      
-      // title
-      listEntry += "<div class=\"pub-content\"><div class=\"title\">" + title + "</div>";
+  function addWorking({ title, authors, myNames=["Mengshan Wu"] }) {
 
-
-      // authors
-
-      let authorList = authors.split(", ");
-      let newAuthorList = [];
-      for (let i = 0; i < authorList.length; i++) {
-          if (authorList[i].includes("Hao Sha")) {
-              newAuthorList.push('<span style="font-weight: bold; text-decoration: underline;">' + authorList[i] + '</span>');
-        
-          } else {
-              newAuthorList.push(authorList[i]);
-          }
+    const authorList = authors.split(", ").map(a => {
+      const clean = a.trim();
+      if (myNames.includes(clean)) {
+        return `<span class="me-author">${clean}</span>`;
       }
-      listEntry += "<div class=\"authors\">" + newAuthorList.join(", ") + "</div>";
+      return clean;
+    }).join(", ");
 
+    const html = `
+      <div class="pub" style="margin-bottom:18px;">
+        <div class="pub-content">
+  
+          <div class="title" style="font-weight:600; font-size:18px;">
+            ${title}
+          </div>
+  
+          <div class="authors" style="font-size:15px; margin-top:3px;">
+            ${authorList}
+          </div>
 
-      // conference
-      if (conference != null) {
-          if (special != null) {
-            listEntry += "<div class=\"publishon\"><i>" + conference + "</i><span class=\"special\"><b> " + special + "</b></span><span class=\"place\"></span></div>";
-          }
-          else {
-            listEntry += "<div class=\"publishon\"><i>" + conference + "</i></div>";
-          }
-      }
-
-      if (code != null) {
-          listEntry += " <a href=\"" + code + "\"><span class=\"label\">[code]</span></a>";
-      }
-
-
-      listEntry += "<br>";
-
-      listEntry += "<div id=\"div" + paperCount + "\" style=\"font-size:15px; width: 0px; padding: 0px; background: rgb(245, 245, 245);margin-top: -12px;\"></div><br></div></div>";
-
-      document.querySelector('.work-list.main-text-box').innerHTML += listEntry;
-
-      workCount += 1;
+        </div>
+      </div>
+    `;
+  
+    document.querySelector(".pub-list.main-text-box")
+            .insertAdjacentHTML("beforeend", html);
   }
 
-  addWorking(
-    title="Representative Sampling for Covariate Shift Generalization",
-    authors="Hao Sha, Yao Mu, Yuxuan Jiang, Li Chen, Chenfeng Xu, Ping Luo, Shengbo Eben Li, Masayoshi Tomizuka, Wei Zhan, and Mingyu Ding",
-    conference="To be submitted to IEEE Transactions on Pattern Analysis and Machine Intelligence",
-    special="(TPAMI)",
-    link=null,
-    code=null,
-  )
-
-  addWorking(
-    title="GdNeRF: Generalizable dynamic NeRF",
-    authors="Hao Sha*, Yudong Li*, Adam W Harley, Leonidas Guibas, and Li Yi",
-    conference=null,
-    special=null,
-    link=null,
-    code=null,
-  )
+  addWorking({
+    title: "Behavioral Intentions of Bank Employees to Implement Green Finance",
+    authors: "Hung-yu Chen, Raofeng Guo, Chin-Chao Hung, Zong-Han Lin, Mengshan Wu",
+  });
 
 </script>
 
