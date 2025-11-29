@@ -18,11 +18,19 @@ figure {
     padding: 0
 }
 
+.bio-text {
+  text-align: justify;
+  text-align-last: left;
+  text-justify: inter-word;
+  line-height: 1.6;
+}
+
+
 .pub-divider {
   margin-top: 30px;
   margin-bottom: 40px;
   border: none;
-  border-top: 2px solid #e5e7eb;  /* 灰色，与现代学术主页一致 */
+  border-top: 2px solid #e5e7eb;
   width: 100%;
 }
 
