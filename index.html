@@ -152,64 +152,35 @@
 
   let paperCount = 0;
 
-  function addPaper(title, authors, conference, special, link, code) {
-      let listEntry = "<div class=\"pub\">";
-      
-      // title
-      // listEntry += "<div class=\"pub-content\"><div class=\"title\">" + title + <a href=\"" + link + "\"><span class=\"label\">[link]</span></a> + "</div>";
-      listEntry += "<div class=\"pub-content\"><div class=\"title\">" + title + "</div>";
-
-      // authors
-
-      let authorList = authors.split(", ");
-      let newAuthorList = [];
-      for (let i = 0; i < authorList.length; i++) {
-          if (authorList[i].includes("Hao Sha")) {
-              newAuthorList.push('<span style="font-weight: bold; text-decoration: underline;">' + authorList[i] + '</span>');
-        
-          } else {
-              newAuthorList.push(authorList[i]);
-          }
-      }
-      listEntry += "<div class=\"authors\">" + newAuthorList.join(", ") + "</div>";
-
-
-      // conference
-      if (conference != null) {
-          if (special != null) {
-            listEntry += "<div class=\"publishon\"><i>" + conference + "</i><span class=\"special\"><b> " + special + "</b></span><span class=\"place\"></span></div>";
-          }
-          else {
-            listEntry += "<div class=\"publishon\"><i>" + conference + "</i></div>";
-          }
-      }
-
-      // pdf
-      listEntry += " <a href=\"" + link + "\"><span class=\"label\">[paper]</span></a>";
-
-
-      if (code != null) {
-          listEntry += " <a href=\"" + code + "\"><span class=\"label\">[code]</span></a>";
-      }
-
-
-      listEntry += "<br>";
-
-      listEntry += "<div id=\"div" + paperCount + "\" style=\"font-size:15px; width: 0px; padding: 0px; background: rgb(245, 245, 245);margin-top: -12px;\"></div><br></div></div>";
-
-      document.querySelector('.pub-list.main-text-box').innerHTML += listEntry;
-
-      paperCount += 1;
+  function addPaper({ title, authors, venue, link, code=null }) {
+    const myNames = ["Mengshan Wu"];
+    const authorList = authors.split(", ").map(a => {
+      return myNames.some(n => a.trim() === n)
+        ? `<strong>${a.trim()}</strong>`
+        : a.trim();
+    }).join(", ");
+  
+    const html = `
+      <div class="pub">
+        <div class="pub-content">
+          <div class="title"><strong>${title}</strong></div>
+          <div class="authors">${authorList}</div>
+          <div class="publishon"><i>${venue}</i></div>
+          <a href="${link}" target="_blank" rel="noopener"><span class="label">[paper]</span></a>
+          ${code ? ` <a href="${code}" target="_blank" rel="noopener"><span class="label">[code]</span></a>` : ""}
+        </div>
+      </div>
+    `;
+  
+    document.querySelector('.pub-list.main-text-box').insertAdjacentHTML('beforeend', html);
   }
-
-  addPaper(
-    title="Behavioral Intentions of Bank Employees to Implement Green Finance",
-    authors="Hung-yu Chen, Raofeng Guo, Chin-Chao Hung, Zong-Han Lin, Mengshan Wu",
-    conference="Sustainability. 2023",
-    special=null,
-    link="https://www.mdpi.com/2071-1050/15/15/11717",
-    code=null,
-  )
+  
+  addPaper({
+    title: "Behavioral Intentions of Bank Employees to Implement Green Finance",
+    authors: "Hung-yu Chen, Raofeng Guo, Chin-Chao Hung, Zong-Han Lin, Mengshan Wu",
+    venue: "Sustainability, 2023",
+    link: "https://www.mdpi.com/2071-1050/15/15/11717"
+  });
 
   let submissionCount = 0;
 
